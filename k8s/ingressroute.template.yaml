@@ -9,17 +9,6 @@ spec:
       - /api/wallets
 ---
 apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: wallet-login-redirect
-  namespace: ${NAMESPACE}
-spec:
-  redirectRegex:
-    regex: ^/login/?(.*)
-    replacement: /api/wallets/login/$1
-    permanent: false
----
-apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: splice-portfolio-with-wallet-api
@@ -33,26 +22,6 @@ spec:
       priority: 100
       middlewares:
         - name: wallet-strip-prefix
-      services:
-        - name: ${WALLET_SERVICE_NAME}
-          port: ${WALLET_SERVICE_PORT}
-    - kind: Rule
-      match: Host(`localhost`) && PathPrefix(`/assets`) && HeaderRegexp(`Referer`, `^https?://localhost(:8080)?/(api/wallets|login)(/|$).*`)
-      priority: 90
-      services:
-        - name: ${WALLET_SERVICE_NAME}
-          port: ${WALLET_SERVICE_PORT}
-    - kind: Rule
-      match: Host(`localhost`) && PathPrefix(`/login`)
-      middlewares:
-        - name: wallet-login-redirect
-      priority: 90
-      services:
-        - name: ${WALLET_SERVICE_NAME}
-          port: ${WALLET_SERVICE_PORT}
-    - kind: Rule
-      match: Host(`localhost`) && PathPrefix(`/api/v0`) && HeaderRegexp(`Referer`, `^https?://localhost(:8080)?/(api/wallets|login)(/|$).*`)
-      priority: 90
       services:
         - name: ${WALLET_SERVICE_NAME}
           port: ${WALLET_SERVICE_PORT}

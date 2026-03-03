@@ -28,10 +28,17 @@ make deploy
 ```
 
 `scripts/deploy.sh` automatically loads defaults from [config/defaults.env](config/defaults.env).
+It also applies wallet gateway chart values from [config/wallet-gateway.values.yaml](config/wallet-gateway.values.yaml) by default.
 You can point to a different file with:
 
 ```bash
 CONFIG_FILE=path/to/my.env make deploy
+```
+
+Or override only wallet-gateway values file:
+
+```bash
+WALLET_GATEWAY_VALUES_FILE=path/to/wallet-gateway.values.yaml make deploy
 ```
 
 This does the following:
@@ -86,6 +93,7 @@ You can override chart references, versions, and namespaces:
 - `SPLICE_PORTFOLIO_CHART_VERSION` (optional)
 - `WALLET_GATEWAY_IMAGE_TAG` (optional; defaults to chart version without leading `v`)
 - `SPLICE_PORTFOLIO_IMAGE_TAG` (optional; defaults to chart version without leading `v`)
+- `WALLET_GATEWAY_VALUES_FILE` (default: `config/wallet-gateway.values.yaml`)
 - `LOCAL_PORT` for port-forward (default: `8080`)
 
 Example:
