@@ -59,7 +59,9 @@ make forward
 Then open:
 
 - `http://localhost:8080/`
-- `http://localhost:8080/api/wallets`
+
+Then connect to "wallet gateway":
+- use custom url: `http://localhost:8080/api/wallets/api/v0/dapp`
 
 ## Reset / Undeploy
 
