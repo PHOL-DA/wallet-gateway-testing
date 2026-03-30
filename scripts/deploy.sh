@@ -137,7 +137,7 @@ fi
 
 if [[ -z "${WALLET_GATEWAY_IMAGE_TAG}" ]]; then
   WG_RESOLVED_CHART_VERSION="$(chart_version "${WALLET_GATEWAY_CHART}" "${WALLET_GATEWAY_CHART_VERSION}")"
-  WALLET_GATEWAY_IMAGE_TAG="${WG_RESOLVED_CHART_VERSION#v}"
+  WALLET_GATEWAY_IMAGE_TAG="v${WG_RESOLVED_CHART_VERSION#v}"
 fi
 
 helm upgrade --install splice-portfolio "${SPLICE_PORTFOLIO_CHART}" \
@@ -146,6 +146,13 @@ helm upgrade --install splice-portfolio "${SPLICE_PORTFOLIO_CHART}" \
   --set-string image.tag="${SPLICE_PORTFOLIO_IMAGE_TAG}" \
   --wait \
   "${SP_ARGS[@]}"
+
+# wallet-gateway chart >=0.23 expects a blockdaemon api key secret ref by default.
+# Create a harmless placeholder for local self-signed setups.
+kubectl create secret generic wallet-gateway-signing-secrets \
+  --namespace "${NAMESPACE}" \
+  --from-literal=blockdaemon-api-key=unsafe \
+  --dry-run=client -o yaml | kubectl apply -f - >/dev/null
 
 helm upgrade --install wallet-gateway "${WALLET_GATEWAY_CHART}" \
   --namespace "${NAMESPACE}" \

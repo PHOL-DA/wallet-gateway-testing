@@ -91,7 +91,7 @@ You can override chart references, versions, and namespaces:
 - `SPLICE_PORTFOLIO_CHART` (default: `oci://ghcr.io/digital-asset/splice-portfolio/helm/splice-portfolio`)
 - `WALLET_GATEWAY_CHART_VERSION` (optional)
 - `SPLICE_PORTFOLIO_CHART_VERSION` (optional)
-- `WALLET_GATEWAY_IMAGE_TAG` (optional; defaults to chart version without leading `v`)
+- `WALLET_GATEWAY_IMAGE_TAG` (optional; defaults to chart version with leading `v`)
 - `SPLICE_PORTFOLIO_IMAGE_TAG` (optional; defaults to chart version without leading `v`)
 - `WALLET_GATEWAY_VALUES_FILE` (default: `config/wallet-gateway.values.yaml`)
 - `LOCAL_PORT` for port-forward (default: `8080`)
